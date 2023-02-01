@@ -1,16 +1,13 @@
 import { Card } from "@mui/material";
 
-import styles from "./styles.module.scss"
-
-import { PokemonTypes } from "@/types/pokemon.types";
-
+import { IPokemonOverLook } from "@/types/pokemon.types";
 
 
 interface IPokemonCardProps {
-  pokemon: PokemonTypes;
+  pokemon: IPokemonOverLook;
 }
 
-export default function({ pokemon }: IPokemonCardProps) {
+const PokemonCard: React.FC<IPokemonCardProps> = ({ pokemon }) => {
   return (
       <div>
         <Card>
@@ -19,4 +16,6 @@ export default function({ pokemon }: IPokemonCardProps) {
         </Card>
       </div>
   );
-}
+};
+
+export default PokemonCard;
