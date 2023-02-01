@@ -1,9 +1,22 @@
 import { Card } from "@mui/material";
+
 import styles from "./styles.module.scss"
-export default function() {
+
+import { PokemonTypes } from "@/types/pokemon.types";
+
+
+
+interface IPokemonCardProps {
+  pokemon: PokemonTypes;
+}
+
+export default function({ pokemon }: IPokemonCardProps) {
   return (
-    <div>
-      <h1>Pokemon Card</h1>
-    </div>
+      <div>
+        <Card>
+          <p>{pokemon.name}</p>
+
+        </Card>
+      </div>
   );
 }

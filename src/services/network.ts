@@ -1,33 +1,61 @@
-import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig, ResponseType } from "axios";
 
 class Network {
-  private static instance: axios.AxiosInstance;
+  private static instance: Network;
 
-  static getInstance(): axios.AxiosInstance {
+  private constructor() {
+  }
+
+  static getInstance(): Network {
     if (!Network.instance) {
-      Network.instance = axios.create({
-        baseURL: 'https://api.example.com',
-      });
-
-      Network.instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-        // Add your custom request logic here
-        // Example: Adding a header to every request
-        // config.headers['Authorization'] = 'Bearer ' + localStorage.getItem('token');
-        return config;
-      });
-
-      Network.instance.interceptors.response.use(
-        (response: AxiosResponse) => {
-          // Add your custom response logic here
-          return response;
-        },
-        (error: unknown) => {
-          // Add your custom error handling logic here
-          return Promise.reject(error);
-        }
-      );
+      Network.instance = new Network();
+      Network.instance.setupInterceptors();
     }
+
     return Network.instance;
+  }
+
+  private setupInterceptors() {
+    axios.interceptors.request.use(
+      (config: InternalAxiosRequestConfig) => {
+        config.baseURL = "https://pokeapi.co/api/v2/";
+        // Add any custom logic for request interception here
+        return config;
+      },
+      (error) => {
+        // Add any custom logic for request error handling here
+        return Promise.reject(error);
+      }
+    );
+
+    axios.interceptors.response.use(
+      (response: AxiosResponse) => {
+        // Add any custom logic for response interception here
+        return response;
+      },
+      (error) => {
+        // Add any custom logic for response error handling here
+        return Promise.reject(error);
+      }
+    );
+  }
+
+  async callRequest(config: AxiosRequestConfig) {
+    return axios(config).then(response => Promise.resolve(response.data)).catch(error => Promise.reject(error));
+  }
+
+  async get(config: Omit<AxiosRequestConfig, 'method'>) {
+    return Network.instance.callRequest({
+      method: "GET",
+      ...config
+    });
+  }
+
+  async post(config: Omit<AxiosRequestConfig, 'method'>) {
+    return Network.instance.callRequest({
+      method: "POST",
+      ...config
+    });
   }
 }
 
