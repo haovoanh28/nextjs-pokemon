@@ -1,21 +1,18 @@
 export const getPokemonListQuery = `
-  query pokemons($limit: Int, $offset: Int) {
-    pokemons(limit: $limit, offset: $offset) {
-      count
-      next
-      previous
-      nextOffset
-      prevOffset
-      status
-      message
-      results {
-        id
-        url
+  query pokemons($limit: Int) {
+    pokemon_v2_pokemon(limit: $limit) {
+      name
+      id
+      pokemon_v2_pokemontypes {
+        pokemon_v2_type {
+          name
+        }
+      }
+      pokemon_v2_pokemonforms {
         name
-        image
       }
     }
-}
+  }
 `;
 
 export const getPokemonDataQuery = `

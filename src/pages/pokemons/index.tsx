@@ -1,6 +1,7 @@
 import network from "@/services/network";
 import { getPokemonListQuery } from "@/gql/pokemon.query";
 
+import { Container, Grid } from "@mui/material";
 import PokemonCard from "@/components/PokemonCard";
 
 import { GetServerSideProps } from "next";
@@ -10,29 +11,28 @@ type PokemonOverLookArrayType = IPokemonOverLook[]
 
 interface IComponentProps {
   pokemons: PokemonOverLookArrayType,
-  next: string,
 }
 
 interface IPokemonListResponse {
-  pokemons: {
-    count: number,
-    next: string,
-    previous: string | null,
-    results: PokemonOverLookArrayType,
-  };
+  pokemon_v2_pokemon: PokemonOverLookArrayType;
 }
 
-const PokemonListPage: React.FC<IComponentProps> = ({ pokemons, next }) => {
+const PokemonListPage: React.FC<IComponentProps> = ({ pokemons }) => {
   console.log("pokemons ==> ", pokemons);
-  console.log("next ==> ", next);
 
   return (
-      <div>
+      <Container maxWidth={"lg"}>
         <h1>Pokemon List</h1>
-        {
-          pokemons.map(pokemon => <PokemonCard key={pokemon.id} pokemon={pokemon} />)
-        }
-      </div>
+        <Grid container spacing={3}>
+          {
+            pokemons.map(pokemon => (
+                <Grid item xs={12} sm={4} md={3} lg={3} key={pokemon.id}>
+                  <PokemonCard pokemon={pokemon} />
+                </Grid>
+            ))
+          }
+        </Grid>
+      </Container>
   );
 };
 
@@ -46,12 +46,11 @@ export const getServerSideProps: GetServerSideProps<IComponentProps> = async fun
     }
   });
 
-  console.log("response ==> ", response.pokemons);
+  console.log("response ==> ", response);
 
   return {
     props: {
-      pokemons: response.pokemons.results,
-      next: response.pokemons.next,
+      pokemons: response.pokemon_v2_pokemon
     }
   };
 };

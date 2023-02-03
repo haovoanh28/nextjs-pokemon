@@ -1,6 +1,8 @@
 import { createTheme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 
+import createCache from "@emotion/cache";
+
 // Create a theme instance.
 const theme = createTheme({
   palette: {
@@ -15,5 +17,9 @@ const theme = createTheme({
     },
   },
 });
+
+export function createEmotionCache() {
+  return createCache({ key: 'css' });
+}
 
 export default theme;

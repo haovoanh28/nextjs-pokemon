@@ -18,7 +18,8 @@ class Network {
   private setupInterceptors() {
     axios.interceptors.request.use(
         (config: InternalAxiosRequestConfig) => {
-          config.baseURL = "https://graphql-pokeapi.graphcdn.app/";
+          // config.baseURL = "https://graphql-pokeapi.graphcdn.app/";
+          config.baseURL = "https://beta.pokeapi.co/graphql/v1beta/";
           // Add any custom logic for request interception here
           return config;
         },
