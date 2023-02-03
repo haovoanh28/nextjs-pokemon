@@ -1,6 +1,5 @@
 import React from "react";
 import Document, { Head, Html, Main, NextScript } from 'next/document';
-import { ServerStyleSheets } from "@mui/styles";
 import createEmotionServer from '@emotion/server/create-instance';
 import { createEmotionCache } from "@/theme";
 
@@ -11,14 +10,11 @@ class MyDocument extends Document {
     return (
         <Html lang="en">
           <Head>
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://fonts.gstatic.com" />
-            <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500&display=swap" rel="stylesheet" />
           </Head>
           <body>
             <Main />
             <NextScript />
-            <script> </script>
+            <script></script>
           </body>
         </Html>
     );
@@ -49,7 +45,6 @@ MyDocument.getInitialProps = async (ctx) => {
   // 4. page.render
 
 // Render app and page and get the context of the page with collected side effects.
-  const muiServerStyleSheets = new ServerStyleSheets();
   const originalRenderPage = ctx.renderPage;
 
   // You can consider sharing the same Emotion cache between all the SSR requests to speed up performance.
@@ -78,12 +73,9 @@ MyDocument.getInitialProps = async (ctx) => {
       />
   ));
 
-  console.log("emotionStyleTags ==> ", emotionStyleTags);
-
   return {
     ...initialProps,
-    emotionStyleTags,
-    styles: [...React.Children.toArray(initialProps.styles), muiServerStyleSheets.getStyleElement()],
+    styles: [...emotionStyleTags, ...React.Children.toArray(initialProps.styles)],
   };
 };
 

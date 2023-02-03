@@ -18,7 +18,6 @@ interface IPokemonListResponse {
 }
 
 const PokemonListPage: React.FC<IComponentProps> = ({ pokemons }) => {
-  console.log("pokemons ==> ", pokemons);
 
   return (
       <Container maxWidth={"lg"}>
@@ -46,11 +45,18 @@ export const getServerSideProps: GetServerSideProps<IComponentProps> = async fun
     }
   });
 
-  console.log("response ==> ", response);
+  const formattedPokemons = response.pokemon_v2_pokemon.map(pokemon => {
+    const imageLink = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemon.id}.svg`;
+
+    return {
+      ...pokemon,
+      image: imageLink,
+    };
+  });
 
   return {
     props: {
-      pokemons: response.pokemon_v2_pokemon
+      pokemons: formattedPokemons
     }
   };
 };
