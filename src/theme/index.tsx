@@ -1,4 +1,4 @@
-import { Electrolize } from "@next/font/google";
+import { Oswald, VT323, Black_Ops_One } from "@next/font/google";
 
 import { createTheme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
@@ -7,11 +7,13 @@ import createCache from "@emotion/cache";
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
+    pokemonID: React.CSSProperties;
     pokemonName: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
+    pokemonID?: React.CSSProperties;
     pokemonName?: React.CSSProperties;
   }
 }
@@ -19,22 +21,36 @@ declare module '@mui/material/styles' {
 // Update the Typography's variant prop options
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
+    pokemonID: true;
     pokemonName: true;
   }
 }
 
-const electrolize = Electrolize({
+const oswald = Oswald({
+  weight: "500"
+});
+
+const _VT323 = VT323({
   weight: "400",
-  subsets: ['latin'],
-  preload: false
+});
+
+const blackOpsOne = Black_Ops_One({
+  weight: "400",
 });
 
 // Create a theme instance.
 const theme = createTheme({
   typography: {
     pokemonName: {
+      fontSize: "16px",
+      textTransform: "uppercase",
+      fontFamily: blackOpsOne.style.fontFamily,
+      fontWeight: "bold"
+    },
+    pokemonID: {
       fontSize: "20px",
-      textTransform: "uppercase"
+      fontFamily: oswald.style.fontFamily,
+      fontWeight: 500
     }
   },
   palette: {

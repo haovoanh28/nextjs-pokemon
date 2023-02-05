@@ -1,5 +1,5 @@
 export const getPokemonListQuery = `
-  query pokemons($limit: Int) {
+  query pokemonList($limit: Int) {
     pokemon_v2_pokemon(limit: $limit) {
       name
       id
@@ -15,19 +15,10 @@ export const getPokemonListQuery = `
   }
 `;
 
-export const getPokemonDataQuery = `
-  query pokemon($name: String!) {
-    pokemon(name: $name) {
+export const getPokemonIDListQuery = `
+  query pokemonIDList {
+    pokemon_v2_pokemon {
       id
-      name
-      sprites {
-        front_default
-      }
-      types {
-        type {
-          name
-        }
-      }
     }
   }
 `;

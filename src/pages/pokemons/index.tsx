@@ -25,7 +25,7 @@ const PokemonListPage: React.FC<IComponentProps> = ({ pokemons }) => {
         <Grid container spacing={3}>
           {
             pokemons.map(pokemon => (
-                <Grid item xs={12} sm={4} md={3} lg={3} key={pokemon.id}>
+                <Grid item xs={12} sm={4} md={2} lg={2} key={pokemon.id}>
                   <PokemonCard pokemon={pokemon} />
                 </Grid>
             ))
@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps<IComponentProps> = async fun
     data: {
       query: getPokemonListQuery,
       variables: {
-        limit: 20,
+        limit: 50,
       }
     }
   });

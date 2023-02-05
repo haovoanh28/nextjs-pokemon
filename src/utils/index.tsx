@@ -29,5 +29,5 @@ export const pokemonColours = {
 };
 
 export function getPokemonColorByType(type: PokemonTypesType): string {
-  return pokemonColours[type] || "#777";
+  return `${pokemonColours[type]}` || "#777777";
 }

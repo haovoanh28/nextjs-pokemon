@@ -10,6 +10,92 @@ body {
   overflow-x: hidden;
 }
 
-.oswald-font {
-  font-family: "Oswald";
+.normal {
+  background-color: #A8A77A;
+  box-shadow: 0 0 20px #A8A77A;
+}
+
+.fire {
+  background-color: #EE8130;
+  box-shadow: 0 0 20px #EE8130;
+}
+
+.water {
+  background-color: #6390F0;
+  box-shadow: 0 0 20px #6390F0;
+}
+
+.electric {
+  background-color: #F7D02C;
+  box-shadow: 0 0 20px #F7D02C;
+}
+
+.grass {
+  background-color: #7AC74C;
+  box-shadow: 0 0 20px #7AC74C;
+}
+
+.ice {
+  background-color: #96D9D6;
+  box-shadow: 0 0 20px #96D9D6;
+}
+
+.fighting {
+  background-color: #C22E28;
+  box-shadow: 0 0 20px #C22E28;
+}
+
+.poison {
+  background-color: #A33EA1;
+  box-shadow: 0 0 20px #A33EA1;
+}
+
+.ground {
+  background-color: #E2BF65;
+  box-shadow: 0 0 20px #E2BF65;
+}
+
+.flying {
+  background-color: #A98FF3;
+  box-shadow: 0 0 20px #A98FF3;
+}
+
+.psychic {
+  background-color: #F95587;
+  box-shadow: 0 0 20px #F95587;
+}
+
+.bug {
+  background-color: #A6B91A;
+  box-shadow: 0 0 20px #A6B91A;
+}
+
+.rock {
+  background-color: #B6A136;
+  box-shadow: 0 0 20px #B6A136;
+}
+
+.ghost {
+  background-color: #735797;
+  box-shadow: 0 0 20px #735797;
+}
+
+.dragon {
+  background-color: #6F35FC;
+  box-shadow: 0 0 20px #6F35FC;
+}
+
+.dark {
+  background-color: #705746;
+  box-shadow: 0 0 20px #705746;
+}
+
+.steel {
+  background-color: #B7B7CE;
+  box-shadow: 0 0 20px #B7B7CE;
+}
+
+.fairy {
+  background-color: #D685AD;
+  box-shadow: 0 0 20px #D685AD;
 }
