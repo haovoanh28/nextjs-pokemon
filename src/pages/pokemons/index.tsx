@@ -1,8 +1,11 @@
 import network from "@/services/network";
 import { getPokemonListQuery } from "@/gql/pokemon.query";
 
-import { Container, Grid } from "@mui/material";
+import Link from "next/link";
 import PokemonCard from "@/components/PokemonCard";
+import { Container, Grid } from "@mui/material";
+
+import { getPokemonImageLink } from "@/utils";
 
 import { GetServerSideProps } from "next";
 import { IPokemonOverLook } from "@/types/pokemon.types";
@@ -18,15 +21,16 @@ interface IPokemonListResponse {
 }
 
 const PokemonListPage: React.FC<IComponentProps> = ({ pokemons }) => {
-
   return (
-      <Container maxWidth={"lg"}>
+      <Container maxWidth={"xl"}>
         <h1>Pokemon List</h1>
         <Grid container spacing={3}>
           {
             pokemons.map(pokemon => (
-                <Grid item xs={12} sm={4} md={2} lg={2} key={pokemon.id}>
-                  <PokemonCard pokemon={pokemon} />
+                <Grid item xs={6} sm={4} md={3} lg={2} key={pokemon.id}>
+                  <Link href={`/pokemons/${pokemon.id}`} style={{ textDecoration: "none" }}>
+                    <PokemonCard pokemon={pokemon} />
+                  </Link>
                 </Grid>
             ))
           }
@@ -35,7 +39,7 @@ const PokemonListPage: React.FC<IComponentProps> = ({ pokemons }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<IComponentProps> = async function(context) {
+export const getServerSideProps: GetServerSideProps<IComponentProps> = async function() {
   const response: IPokemonListResponse = await network.post({
     data: {
       query: getPokemonListQuery,
@@ -46,11 +50,9 @@ export const getServerSideProps: GetServerSideProps<IComponentProps> = async fun
   });
 
   const formattedPokemons = response.pokemon_v2_pokemon.map(pokemon => {
-    const imageLink = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemon.id}.svg`;
-
     return {
       ...pokemon,
-      image: imageLink,
+      image: getPokemonImageLink(pokemon.id),
     };
   });
 

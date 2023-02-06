@@ -1,20 +1,32 @@
 import network from "@/services/network";
-import { getPokemonIDListQuery } from "@/gql/pokemon.query";
+import { getPokemonDetailQuery, getPokemonIDListQuery } from "@/gql/pokemon.query";
 import { GetStaticPaths, GetStaticProps } from "next";
-
-const PokemonDetailPage: React.FC = () => {
-  return (
-      <>
-        <div></div>
-      </>
-  );
-};
 
 interface PokemonIDListResponseType {
   pokemon_v2_pokemon: {
     id: string
   }[];
 }
+
+interface PokemonDetailResponseType {
+  pokemon_v2_pokemon: {
+    id: string,
+    name: string,
+
+  }[];
+}
+
+interface PokemonDetailType {
+  id: string,
+}
+
+const PokemonDetailPage: React.FC = ({}) => {
+  return (
+      <>
+        <div>he</div>
+      </>
+  );
+};
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const response: PokemonIDListResponseType = await network.post({
@@ -35,11 +47,27 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
-  console.log("context ==> ", ctx);
+export const getStaticProps: GetStaticProps<{}, { id: string }> = async ({ params }) => {
+  let returnedData = {};
+
+  if (params) {
+    console.log("params ==> ", params);
+    const response: PokemonDetailResponseType = await network.post({
+      data: {
+        query: getPokemonDetailQuery,
+        variables: {
+          id: params.id
+        }
+      }
+    });
+
+    const pokemonData = response.pokemon_v2_pokemon[0];
+
+    console.log("pokemonData ==> ", pokemonData);
+  }
 
   return {
-    props: {}
+    props: returnedData
   };
 };
 

@@ -22,3 +22,11 @@ export const getPokemonIDListQuery = `
     }
   }
 `;
+
+export const getPokemonDetailQuery = `
+  query pokemmonDetail($id: Int) {
+    pokemon_v2_pokemon(where: {id: {_eq: $id}}) {
+      name
+    }
+  }
+`;

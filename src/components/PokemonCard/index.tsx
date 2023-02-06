@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { IM_Fell_Great_Primer, Oswald } from "@next/font/google";
+import { Oswald } from "@next/font/google";
 
 import { Box, Card, Typography } from "@mui/material";
 
@@ -28,7 +28,6 @@ const PokemonCard: React.FC<IPokemonCardProps> = ({ pokemon }) => {
         }).join(',');
       }
 
-
       return (
           <div>
             <Card variant={"outlined"} sx={{
@@ -45,7 +44,7 @@ const PokemonCard: React.FC<IPokemonCardProps> = ({ pokemon }) => {
                       pokemon.pokemon_v2_pokemontypes.map(type => {
                         const _typeName = type.pokemon_v2_type.name;
                         return (
-                            <PokemonType type={_typeName} />
+                            <PokemonType type={_typeName} key={`${pokemon.id}-${_typeName}`} />
                         );
                       })
                     }

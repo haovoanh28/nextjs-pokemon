@@ -31,3 +31,7 @@ export const pokemonColours = {
 export function getPokemonColorByType(type: PokemonTypesType): string {
   return `${pokemonColours[type]}` || "#777777";
 }
+
+export function getPokemonImageLink(id: string) {
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg`;
+}
