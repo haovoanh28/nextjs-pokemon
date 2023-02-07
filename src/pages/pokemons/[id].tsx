@@ -10,9 +10,8 @@ interface PokemonIDListResponseType {
 
 interface PokemonDetailResponseType {
   pokemon_v2_pokemon: {
-    id: string,
+    id: number,
     name: string,
-
   }[];
 }
 

@@ -8,9 +8,6 @@ export const getPokemonListQuery = `
           name
         }
       }
-      pokemon_v2_pokemonforms {
-        name
-      }
     }
   }
 `;

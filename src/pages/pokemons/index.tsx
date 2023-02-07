@@ -8,16 +8,20 @@ import { Container, Grid } from "@mui/material";
 import { getPokemonImageLink } from "@/utils";
 
 import { GetServerSideProps } from "next";
-import { IPokemonOverLook } from "@/types/pokemon.types";
-
-type PokemonOverLookArrayType = IPokemonOverLook[]
+import { CommonPokemonDataType, PokemonIdentifier, PokemonTypesType } from "@/types/pokemon.types";
 
 interface IComponentProps {
-  pokemons: PokemonOverLookArrayType,
+  pokemons: CommonPokemonDataType[],
 }
 
 interface IPokemonListResponse {
-  pokemon_v2_pokemon: PokemonOverLookArrayType;
+  pokemon_v2_pokemon: ({
+    pokemon_v2_pokemontypes: {
+      pokemon_v2_type: {
+        name: PokemonTypesType
+      }
+    }[]
+  } & PokemonIdentifier)[];
 }
 
 const PokemonListPage: React.FC<IComponentProps> = ({ pokemons }) => {
@@ -50,11 +54,16 @@ export const getServerSideProps: GetServerSideProps<IComponentProps> = async fun
   });
 
   const formattedPokemons = response.pokemon_v2_pokemon.map(pokemon => {
+
     return {
-      ...pokemon,
+      name: pokemon.name,
+      id: pokemon.id,
+      types: pokemon.pokemon_v2_pokemontypes.map(v => v.pokemon_v2_type),
       image: getPokemonImageLink(pokemon.id),
     };
   });
+
+  console.log(formattedPokemons);
 
   return {
     props: {

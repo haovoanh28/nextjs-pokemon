@@ -18,16 +18,14 @@ export type PokemonTypesType =
     | 'steel'
     | 'fairy';
 
-export interface CommonPokemonDataType {
-  id: string,
-  name: string,
-  image: string
+export interface PokemonIdentifier {
+  id: number;
+  name: string;
 }
 
-export interface IPokemonOverLook extends CommonPokemonDataType {
-  pokemon_v2_pokemontypes: {
-    pokemon_v2_type: {
-      name: PokemonTypesType
-    }
-  }[],
+export interface CommonPokemonDataType extends PokemonIdentifier {
+  image: string;
+  types: {
+    name: PokemonTypesType
+  }[];
 }
