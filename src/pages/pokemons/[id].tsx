@@ -1,5 +1,7 @@
 import network from "@/services/network";
 import { getPokemonDetailQuery, getPokemonIDListQuery } from "@/gql/pokemon.query";
+
+import { CommonPokemonDataType, PokemonIdentifierType } from "@/types/pokemon.types";
 import { GetStaticPaths, GetStaticProps } from "next";
 
 interface PokemonIDListResponseType {
@@ -12,11 +14,14 @@ interface PokemonDetailResponseType {
   pokemon_v2_pokemon: {
     id: number,
     name: string,
+    pokemon_v2_pokemontypes: {
+      pokemon_v2_type: PokemonIdentifierType
+    }[]
   }[];
 }
 
-interface PokemonDetailType {
-  id: string,
+interface PokemonDetailType extends CommonPokemonDataType {
+
 }
 
 const PokemonDetailPage: React.FC = ({}) => {
@@ -46,7 +51,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<{}, { id: string }> = async ({ params }) => {
+export const getStaticProps: GetStaticProps<PokemonDetailType, { id: string }> = async ({ params }) => {
   let returnedData = {};
 
   if (params) {
@@ -60,9 +65,9 @@ export const getStaticProps: GetStaticProps<{}, { id: string }> = async ({ param
       }
     });
 
-    const pokemonData = response.pokemon_v2_pokemon[0];
+    returnedData = response.pokemon_v2_pokemon[0];
 
-    console.log("pokemonData ==> ", pokemonData);
+    console.log("returnedData ==> ", returnedData);
   }
 
   return {

@@ -18,12 +18,12 @@ export type PokemonTypesType =
     | 'steel'
     | 'fairy';
 
-export interface PokemonIdentifier {
+export interface PokemonIdentifierType {
   id: number;
   name: string;
 }
 
-export interface CommonPokemonDataType extends PokemonIdentifier {
+export interface CommonPokemonDataType extends PokemonIdentifierType {
   image: string;
   types: {
     name: PokemonTypesType

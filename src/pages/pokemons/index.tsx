@@ -8,7 +8,7 @@ import { Container, Grid } from "@mui/material";
 import { getPokemonImageLink } from "@/utils";
 
 import { GetServerSideProps } from "next";
-import { CommonPokemonDataType, PokemonIdentifier, PokemonTypesType } from "@/types/pokemon.types";
+import { CommonPokemonDataType, PokemonIdentifierType, PokemonTypesType } from "@/types/pokemon.types";
 
 interface IComponentProps {
   pokemons: CommonPokemonDataType[],
@@ -21,7 +21,7 @@ interface IPokemonListResponse {
         name: PokemonTypesType
       }
     }[]
-  } & PokemonIdentifier)[];
+  } & PokemonIdentifierType)[];
 }
 
 const PokemonListPage: React.FC<IComponentProps> = ({ pokemons }) => {
