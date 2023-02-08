@@ -48,13 +48,12 @@ export const getServerSideProps: GetServerSideProps<IComponentProps> = async fun
     data: {
       query: getPokemonListQuery,
       variables: {
-        limit: 50,
+        limit: 100,
       }
     }
   });
 
   const formattedPokemons = response.pokemon_v2_pokemon.map(pokemon => {
-
     return {
       name: pokemon.name,
       id: pokemon.id,
@@ -63,7 +62,7 @@ export const getServerSideProps: GetServerSideProps<IComponentProps> = async fun
     };
   });
 
-  console.log(formattedPokemons);
+  // console.log(formattedPokemons);
 
   return {
     props: {

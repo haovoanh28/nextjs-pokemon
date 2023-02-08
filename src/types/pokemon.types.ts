@@ -18,6 +18,8 @@ export type PokemonTypesType =
     | 'steel'
     | 'fairy';
 
+export type PokemonStatNames = 'hp' | 'attack' | 'defense' | 'special-attack' | 'special-defense' | 'speed';
+
 export interface PokemonIdentifier {
   id: number;
   name: string;
