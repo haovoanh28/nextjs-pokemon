@@ -35,3 +35,18 @@ export function getPokemonColorByType(type: PokemonTypesType): string {
 export function getPokemonImageLink(id: string | number) {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg`;
 }
+
+export function getGradientColorByTypes(types: { name: PokemonTypesType }[], opacityValue = ""): string {
+  let linearColors = "";
+
+  if (types.length == 1) {
+    const colorType = getPokemonColorByType(types[0].name);
+    linearColors = `${colorType}${opacityValue}, ${colorType}${opacityValue}`;
+  } else {
+    linearColors = types.map(type => {
+      return getPokemonColorByType(type.name) + opacityValue;
+    }).join(',');
+  }
+
+  return linearColors;
+}

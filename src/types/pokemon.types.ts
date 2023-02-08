@@ -18,12 +18,14 @@ export type PokemonTypesType =
     | 'steel'
     | 'fairy';
 
-export interface PokemonIdentifierType {
+export type PokemonStatNames = 'hp' | 'attack' | 'defense' | 'special-attack' | 'special-defense' | 'speed';
+
+export interface PokemonIdentifier {
   id: number;
   name: string;
 }
 
-export interface CommonPokemonDataType extends PokemonIdentifierType {
+export interface CommonPokemonDataType extends PokemonIdentifier {
   image: string;
   types: {
     name: PokemonTypesType

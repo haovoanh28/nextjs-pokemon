@@ -1,8 +1,15 @@
+import { useEffect } from "react";
+
 import network from "@/services/network";
 import { getPokemonDetailQuery, getPokemonIDListQuery } from "@/gql/pokemon.query";
 
-import { CommonPokemonDataType, PokemonIdentifierType } from "@/types/pokemon.types";
+import { Box } from "@mui/material";
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+
+import { getPokemonColorByType, getPokemonImageLink } from "@/utils";
+
 import { GetStaticPaths, GetStaticProps } from "next";
+import { CommonPokemonDataType, PokemonIdentifier, PokemonTypesType } from "@/types/pokemon.types";
 
 interface PokemonIDListResponseType {
   pokemon_v2_pokemon: {
@@ -11,24 +18,54 @@ interface PokemonIDListResponseType {
 }
 
 interface PokemonDetailResponseType {
-  pokemon_v2_pokemon: {
-    id: number,
-    name: string,
+  pokemon_v2_pokemon: ({
     pokemon_v2_pokemontypes: {
-      pokemon_v2_type: PokemonIdentifierType
-    }[]
-  }[];
+      pokemon_v2_type: {
+        id: string,
+        name: PokemonTypesType
+      }
+    }[];
+    pokemon_v2_pokemonstats: {
+      base_stat: number;
+      stat_id: string;
+      pokemon_v2_stat: {
+        id: string;
+        name: 'hp' | 'attack' | 'defense' | 'special-attack' | 'special-defense' | 'speed';
+      }
+    }[];
+  } & PokemonIdentifier)[];
 }
 
 interface PokemonDetailType extends CommonPokemonDataType {
-
+  baseStats: {
+    hp: number;
+    attack: number;
+    defense: number;
+    speed: number;
+  };
 }
 
-const PokemonDetailPage: React.FC = ({}) => {
+const PokemonDetailPage: React.FC<{ data: PokemonDetailType }> = ({ data }) => {
+  useEffect(() => {
+    console.log("data ==> ", data);
+  }, []);
+
+  const linearColors = data.types.map((type, index) => {
+    const color = getPokemonColorByType(type.name);
+    const percentageStart = 50 * index;
+    const percentageEnd = 50 * (index + 1);
+    return `${color} ${percentageStart}%, ${color} ${percentageEnd}%`;
+  });
+
   return (
-      <>
-        <div>he</div>
-      </>
+      <Box p={2} sx={{
+        background: `linear-gradient(120deg, ${linearColors.join(', ')})`
+      }}>
+        <KeyboardBackspaceIcon sx={{
+          display: "block",
+          color: "white"
+        }} />
+      </Box>
   );
 };
 
@@ -51,27 +88,61 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<PokemonDetailType, { id: string }> = async ({ params }) => {
-  let returnedData = {};
-
-  if (params) {
-    console.log("params ==> ", params);
-    const response: PokemonDetailResponseType = await network.post({
-      data: {
-        query: getPokemonDetailQuery,
-        variables: {
-          id: params.id
-        }
+const generatePokemonDetailData = (pokemonDataResponse: PokemonDetailResponseType["pokemon_v2_pokemon"][0]): PokemonDetailType => {
+  return {
+    id: pokemonDataResponse.id,
+    name: pokemonDataResponse.name,
+    image: getPokemonImageLink(pokemonDataResponse.id),
+    types: pokemonDataResponse.pokemon_v2_pokemontypes.map(_v => _v.pokemon_v2_type),
+    baseStats: pokemonDataResponse.pokemon_v2_pokemonstats.reduce((acc, cur) => {
+      switch (cur.pokemon_v2_stat.name) {
+        case "hp":
+          return { ...acc, hp: cur.base_stat };
+        case 'attack':
+          return { ...acc, attack: cur.base_stat };
+        case 'defense':
+          return { ...acc, defense: cur.base_stat };
+        case 'special-attack':
+          return { ...acc, specialAttack: cur.base_stat };
+        case 'special-defense':
+          return { ...acc, specialDefense: cur.base_stat };
+        case 'speed':
+          return { ...acc, speed: cur.base_stat };
+        default:
+          return acc;
       }
-    });
+    }, {
+      hp: 0,
+      attack: 0,
+      defense: 0,
+      specialAttack: 0,
+      specialDefense: 0,
+      speed: 0
+    }),
+  };
+};
 
-    returnedData = response.pokemon_v2_pokemon[0];
+export const getStaticProps: GetStaticProps<{ data: PokemonDetailType }, { id: string }> = async ({ params }) => {
+  const response: PokemonDetailResponseType = await network.post({
+    data: {
+      query: getPokemonDetailQuery,
+      variables: {
+        id: params!.id
+      }
+    }
+  });
 
-    console.log("returnedData ==> ", returnedData);
-  }
+  const pokemonDataResponse = response.pokemon_v2_pokemon[0];
+  const pokemonDetailData: PokemonDetailType = generatePokemonDetailData(pokemonDataResponse);
+
+  // console.log("pokemonDataResponse ==> ", pokemonDataResponse);
+  // console.log("stats ==> ", pokemonDataResponse.pokemon_v2_pokemonstats);
+  // console.log("pokemonDetailData ==> ", pokemonDetailData);
 
   return {
-    props: returnedData
+    props: {
+      data: pokemonDetailData
+    }
   };
 };
 

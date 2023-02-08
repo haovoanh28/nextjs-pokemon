@@ -3,7 +3,7 @@ import { Oswald } from "@next/font/google";
 
 import { Box, Card, Typography } from "@mui/material";
 
-import { formatID, getPokemonColorByType } from "@/utils";
+import { formatID, getGradientColorByTypes } from "@/utils";
 
 import { CommonPokemonDataType } from "@/types/pokemon.types";
 import PokemonType from "@/components/PokemonTypeIcon";
@@ -17,16 +17,7 @@ const oswald = Oswald();
 const postfixFactor = "99";
 
 const PokemonCard: React.FC<IPokemonCardProps> = ({ pokemon }) => {
-      let linearColors = "";
-
-      if (pokemon.types.length == 1) {
-        const colorType = getPokemonColorByType(pokemon.types[0].name);
-        linearColors = `${colorType}${postfixFactor}, ${colorType}${postfixFactor}`;
-      } else {
-        linearColors = pokemon.types.map(type => {
-          return getPokemonColorByType(type.name) + postfixFactor;
-        }).join(',');
-      }
+      const linearColors = getGradientColorByTypes(pokemon.types, "99");
 
       return (
           <div>

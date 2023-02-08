@@ -1,4 +1,4 @@
-import { Oswald, VT323, Black_Ops_One } from "@next/font/google";
+import { Black_Ops_One, Oswald } from "@next/font/google";
 
 import { createTheme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
@@ -28,10 +28,6 @@ declare module '@mui/material/Typography' {
 
 const oswald = Oswald({
   weight: "500"
-});
-
-const _VT323 = VT323({
-  weight: "400",
 });
 
 const blackOpsOne = Black_Ops_One({
