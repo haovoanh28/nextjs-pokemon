@@ -1,3 +1,4 @@
+import { MouseEvent } from "react";
 import { PokemonTypesType } from "@/types/pokemon.types";
 
 // 1    => #001
@@ -49,4 +50,9 @@ export function getGradientColorByTypes(types: { name: PokemonTypesType }[], opa
   }
 
   return linearColors;
+}
+
+export function stopEventPropagation(e: MouseEvent) {
+  e.preventDefault();
+  e.stopPropagation();
 }

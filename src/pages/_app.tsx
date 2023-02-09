@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 import '@/styles/globals.css';
 import { CssBaseline } from "@mui/material";
@@ -15,6 +16,8 @@ interface MyAppProps extends AppProps {
 const clientSideEmotionCache = createEmotionCache();
 
 export default function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: MyAppProps) {
+  const router = useRouter();
+
   return (
       <>
         <CacheProvider value={emotionCache}>
@@ -23,7 +26,7 @@ export default function App({ Component, pageProps, emotionCache = clientSideEmo
           </Head>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Component {...pageProps} />
+            <Component {...pageProps} key={router.asPath} />
           </ThemeProvider>
         </CacheProvider>
       </>

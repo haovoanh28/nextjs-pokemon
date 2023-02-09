@@ -3,15 +3,18 @@ import { Box } from "@mui/material";
 
 import styles from "./styles.module.scss";
 
-import { getPokemonColorByType } from "@/utils";
+import { stopEventPropagation } from "@/utils";
 
 import { PokemonTypesType } from "@/types/pokemon.types";
 
 const PokemonType: React.FC<{ type: PokemonTypesType }> = ({ type }) => {
+
+
   return (
       <Box className={`${styles.icon} ${type}`} display="flex" alignItems="center" justifyContent="center"
            padding="8px"
            borderRadius="50%"
+           onClick={stopEventPropagation}
       >
         <Image
             src={`/assets/pokemon-types/${type}.svg`} alt="pokemon type"
@@ -20,6 +23,7 @@ const PokemonType: React.FC<{ type: PokemonTypesType }> = ({ type }) => {
             priority
             width={16}
             height={16}
+            onClick={stopEventPropagation}
         />
       </Box>
   );

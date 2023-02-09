@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import network from "@/services/network";
-import { getPokemonDetailQuery, getPokemonIDListQuery } from "@/gql/pokemon.query";
+import { getPokemonDetailQuery, getPokemonIDListQuery } from "@/gql/queries";
 
 import { Box } from "@mui/material";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
@@ -9,32 +9,8 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { getPokemonColorByType, getPokemonImageLink } from "@/utils";
 
 import { GetStaticPaths, GetStaticProps } from "next";
-import { CommonPokemonDataType, PokemonIdentifier, PokemonTypesType } from "@/types/pokemon.types";
-
-interface PokemonIDListResponseType {
-  pokemon_v2_pokemon: {
-    id: string
-  }[];
-}
-
-interface PokemonDetailResponseType {
-  pokemon_v2_pokemon: ({
-    pokemon_v2_pokemontypes: {
-      pokemon_v2_type: {
-        id: string,
-        name: PokemonTypesType
-      }
-    }[];
-    pokemon_v2_pokemonstats: {
-      base_stat: number;
-      stat_id: string;
-      pokemon_v2_stat: {
-        id: string;
-        name: 'hp' | 'attack' | 'defense' | 'special-attack' | 'special-defense' | 'speed';
-      }
-    }[];
-  } & PokemonIdentifier)[];
-}
+import { CommonPokemonDataType } from "@/types/pokemon.types";
+import { PokemonDetailResponseType, PokemonIDListResponseType } from "@/gql/responses";
 
 interface PokemonDetailType extends CommonPokemonDataType {
   baseStats: {
@@ -134,10 +110,6 @@ export const getStaticProps: GetStaticProps<{ data: PokemonDetailType }, { id: s
 
   const pokemonDataResponse = response.pokemon_v2_pokemon[0];
   const pokemonDetailData: PokemonDetailType = generatePokemonDetailData(pokemonDataResponse);
-
-  // console.log("pokemonDataResponse ==> ", pokemonDataResponse);
-  // console.log("stats ==> ", pokemonDataResponse.pokemon_v2_pokemonstats);
-  // console.log("pokemonDetailData ==> ", pokemonDetailData);
 
   return {
     props: {

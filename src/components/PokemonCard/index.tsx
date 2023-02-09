@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Oswald } from "@next/font/google";
 
 import { Box, Card, Typography } from "@mui/material";
@@ -43,12 +42,12 @@ const PokemonCard: React.FC<IPokemonCardProps> = ({ pokemon }) => {
                 </Box>
                 <Box position={"relative"} height={160} mt={4}
                 >
-                  <Image src={pokemon.image} alt={`${pokemon.name} image`} fill style={{ objectFit: "contain" }}
-                         priority={pokemon.id < 10}
-                         sizes="(max-width: 768px) 100vw,
-                         (max-width: 1200px) 25vw,
-                         25vw"
-                  />
+                  {/*<Image src={pokemon.image} alt={`${pokemon.name} image`} fill style={{ objectFit: "contain" }}*/}
+                  {/*       priority={pokemon.id < 10}*/}
+                  {/*       sizes="(max-width: 768px) 100vw,*/}
+                  {/*       (max-width: 1200px) 25vw,*/}
+                  {/*       25vw"*/}
+                  {/*/>*/}
                 </Box>
                 <Box mt={2} textAlign={"center"}>
                   <Typography variant={"pokemonName"} color={"whitesmoke"} letterSpacing={2}>

@@ -1,6 +1,6 @@
 export const getPokemonListQuery = `
-  query pokemonList($limit: Int) {
-    pokemon_v2_pokemon(limit: $limit) {
+  query pokemonList($limit: Int, $offset: Int) {
+    pokemon_v2_pokemon(limit: $limit, offset: $offset) {
       name
       id
       pokemon_v2_pokemontypes {
