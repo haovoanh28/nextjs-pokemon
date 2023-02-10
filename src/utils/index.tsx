@@ -8,6 +8,10 @@ export function formatID(id: string | number) {
   return "#" + id.toString().padStart(3, "0");
 }
 
+export function formatName(name: string) {
+  return name.split('-').map(v => v[0].toUpperCase() + v.substring(1)).join(' ');
+}
+
 export const pokemonColours = {
   normal: '#A8A77A',
   fire: '#EE8130',
@@ -34,7 +38,7 @@ export function getPokemonColorByType(type: PokemonTypesType): string {
 }
 
 export function getPokemonImageLink(id: string | number) {
-  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg`;
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 }
 
 export function getGradientColorByTypes(types: { name: PokemonTypesType }[], opacityValue = ""): string {

@@ -3,10 +3,11 @@ import { useEffect } from "react";
 import network from "@/services/network";
 import { getPokemonDetailQuery, getPokemonIDListQuery } from "@/gql/queries";
 
+import Head from "next/head";
 import { Box } from "@mui/material";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
-import { getPokemonColorByType, getPokemonImageLink } from "@/utils";
+import { formatName, getPokemonColorByType, getPokemonImageLink } from "@/utils";
 
 import { GetStaticPaths, GetStaticProps } from "next";
 import { CommonPokemonDataType } from "@/types/pokemon.types";
@@ -34,14 +35,19 @@ const PokemonDetailPage: React.FC<{ data: PokemonDetailType }> = ({ data }) => {
   });
 
   return (
-      <Box p={2} sx={{
-        background: `linear-gradient(120deg, ${linearColors.join(', ')})`
-      }}>
-        <KeyboardBackspaceIcon sx={{
-          display: "block",
-          color: "white"
-        }} />
-      </Box>
+      <>
+        <Head>
+          <title>{formatName(data.name)}</title>
+        </Head>
+        <Box p={2} sx={{
+          background: `linear-gradient(120deg, ${linearColors.join(', ')})`
+        }}>
+          <KeyboardBackspaceIcon sx={{
+            display: "block",
+            color: "white"
+          }} />
+        </Box>
+      </>
   );
 };
 
