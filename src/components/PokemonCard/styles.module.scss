@@ -1,3 +1,11 @@
-.test {
-  color: red;
+.pokemonImage {
+  object-fit: contain;
+  transform: scale(1);
+  transition: transform .2s linear;
+}
+
+.card {
+  &:hover img.pokemonImage {
+    transform: scale(1.2);
+  }
 }

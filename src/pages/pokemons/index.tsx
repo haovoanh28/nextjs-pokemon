@@ -8,7 +8,9 @@ import Head from "next/head";
 import Link from "next/link";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PokemonCard from "@/components/PokemonCard";
-import { Box, CircularProgress, Container, Grid } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
+import { FixedSizeList as List } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 import { getPokemonImageLink } from "@/utils";
 
@@ -48,7 +50,7 @@ async function getPokemonList(page: number): Promise<IComponentProps> {
       };
     }),
     nextPage: page + 1,
-    prevPage: page - 1
+    prevPage: page - 1,
   });
 }
 
@@ -74,7 +76,8 @@ const PokemonListPage: React.FC<IComponentProps> = ({ pokemons, nextPage, prevPa
       });
 
   useEffect(() => {
-    if (data) {
+    if (data && data?.pages.length > 1) {
+      console.log("data ==> ", data);
       const newList = data.pages.map(value => {
         return value.pokemons;
       });
@@ -92,6 +95,7 @@ const PokemonListPage: React.FC<IComponentProps> = ({ pokemons, nextPage, prevPa
                   <link rel="prev" href={`/pokemons?page=${prevPage}`} />
               )
           }
+
           <link rel="next" href={`/pokemons?page=${nextPage}`} />
         </Head>
 
@@ -108,7 +112,7 @@ const PokemonListPage: React.FC<IComponentProps> = ({ pokemons, nextPage, prevPa
                 next={fetchNextPage}
                 loader={
                   <Box mt={4} display="flex" justifyContent="center" alignItems="center">
-                    <CircularProgress color="primary" />
+                    <Typography variant={"pokemonName"}> Loading More ... </Typography>
                   </Box>
                 }
             >
@@ -124,12 +128,6 @@ const PokemonListPage: React.FC<IComponentProps> = ({ pokemons, nextPage, prevPa
                 }
               </Grid>
             </InfiniteScroll>
-
-            {/*<Link style={{*/}
-            {/*  visibility: "hidden"*/}
-            {/*}} href={`/pokemons?page=${nextPage}`}>*/}
-            {/*  Next Page*/}
-            {/*</Link>*/}
           </Container>
         </Box>
       </>
@@ -137,8 +135,15 @@ const PokemonListPage: React.FC<IComponentProps> = ({ pokemons, nextPage, prevPa
   );
 };
 
-export const getServerSideProps: GetServerSideProps<IComponentProps> = async function(ctx) {
-  const page: number = parseInt(ctx.query?.page as string) || 1;
+export const getServerSideProps: GetServerSideProps<IComponentProps> = async function({ query, res }) {
+  if (!query?.page) {
+    res.writeHead(302, {
+      Location: "/pokemons?page=1"
+    });
+    res.end();
+  }
+
+  const page: number = parseInt(query?.page as string) || 1;
   const { pokemons, nextPage, prevPage } = await getPokemonList(page);
 
   return {
