@@ -103,7 +103,7 @@ const PokemonListPage: React.FC<IComponentProps> = ({ pokemons, nextPage, prevPa
           <Container maxWidth={"xl"}>
             <h1>Pokemon List</h1>
             <InfiniteScroll
-                scrollThreshold={0.5}
+                scrollThreshold={0.8}
                 dataLength={pokemonList.length}
                 hasMore={hasNextPage || false}
                 style={{
