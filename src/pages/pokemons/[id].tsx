@@ -7,7 +7,7 @@ import Head from "next/head";
 import { Box } from "@mui/material";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
-import { formatName, getPokemonColorByType, getPokemonImageLink } from "@/utils";
+import { formatName, getPokemonColorByType, getPokemonImageLink, getGradientColorByTypes } from "@/utils";
 
 import { GetStaticPaths, GetStaticProps } from "next";
 import { CommonPokemonDataType } from "@/types/pokemon.types";
@@ -40,7 +40,7 @@ const PokemonDetailPage: React.FC<{ data: PokemonDetailType }> = ({ data }) => {
           <title>{formatName(data.name)}</title>
         </Head>
         <Box p={2} sx={{
-          background: `linear-gradient(120deg, ${linearColors.join(', ')})`
+          background: `linear-gradient(${getGradientColorByTypes(data.types)})`
         }}>
           <KeyboardBackspaceIcon sx={{
             display: "block",
